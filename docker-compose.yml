@@ -1,0 +1,27 @@
+version: '3.8'
+
+services:
+  rubix-node:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      platforms:
+        - linux/amd64
+        - linux/arm64
+    container_name: rubix-node0
+    ports:
+      - "20000:20000"  # Main node port
+      - "10500:10500"  # gRPC port
+    restart: unless-stopped
+    volumes:
+      - rubix-data:/app/DATA
+    networks:
+      - rubix-network
+
+volumes:
+  rubix-data:
+    driver: local
+
+networks:
+  rubix-network:
+    driver: bridge
